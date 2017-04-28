@@ -6,7 +6,6 @@
       label{
         display: block;
         margin: 20px;
-        color: red;
       }
     </style>
     <title></title>
@@ -22,11 +21,13 @@
     <h1>Registration</h1>
     <form class="" action="/checkregister" method="post">
       {% csrf_token %}
-      <label for="f_name">First name:<input type="text" name="f_name" value=""></label>
-      <label for="l_name">Last name:<input type="text" name="l_name" value=""></label>
+      <label for="f_name">Name:<input type="text" name="f_name" value=""></label>
+      <label for="alias">Alias:<input type="text" name="alias" value=""></label>
       <label for="email">Email:<input type="email" name="email" value=""></label>
       <label for="password">Password:<input type="password" name="password" value=""></label>
+      <p>password must be at least 8 characters</p>
       <label for="con_pw">Confirm pw:<input type="password" name="con_pw" value=""></label>
+      <label for="birthdate">Date of Birth<input type="date" name="birthdate" value=""></label>
       <input type="submit" name="submit" value="Register">
     </form>
     <h1>Login</h1>

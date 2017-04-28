@@ -2,10 +2,66 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <style media="screen">
+      label{
+        display: block;
+        padding: 10px;
+      }
+    </style>
     <title></title>
   </head>
   <body>
-    <h1>Success!Welcome,</h1>
-    {{ request.session.user}}
+    <div class="" style="position:absolute;right:20px;">
+      <a href="/logout">Logout</a>
+    </div>
+    <h1>Welcome,{{ request.session.user}}</h1>
+    <div class="left" style="height:600px;width:550px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;float:left;">
+      <h3>Quotable Quotes</h3>
+      {% for quote in unfavquotes %}
+      <div class="" style = "border:1px solid black;">
+      <p>{{quote.quoteby}}:{{quote.content}}</p>
+      <p>Post by:<a href="/users/{{quote.creater.id}}">{{quote.creater.alias_name}}</a></p>
+      <form class="" action="/addfav" method="post" style="display:inline;">
+        {% csrf_token %}
+        <input type="hidden" name="quoteid" value="{{quote.id}}">
+        <input type="submit" name="add" value="Add to my list">
+      </form>
+      </div>
+      {% endfor%}
+
+    </div>
+
+    <div class="right" style="height:400px;width:450px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;float:right;">
+      <h3>Your Favorites</h3>
+      {% for quote in favquotes %}
+      <div class="" style = "border:1px solid black;">
+      <p>{{quote.quoteby}}:{{quote.content}}</p>
+      <p style="display:inline;">Post by:<a href="/users/{{quote.creater.id}}">{{quote.creater.alias_name}}</a></p>
+      <form class="" action="/remove" method="post" style="display:inline;">
+        {% csrf_token %}
+        <input type="hidden" name="quoteid" value="{{quote.id}}">
+        <input type="submit" name="remove" value="Remove From my list" style="display:inline;">
+      </form>
+      </div>
+      {% endfor%}
+    </div>
+    <div class="rightbottom" style="position:absolute;top:500px;right:0px;">
+      <h3>Contribute a Quote</h3>
+      {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+          <li{% if message.tags%} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+      <form class="" action="/addquote" method="post">
+        {% csrf_token %}
+        <label for="quoteby">Quote By:<input type="text" name="quoteby" value=""></label>
+        <label for="quotemessage">Message:<textarea name="quotemessage" rows="8" cols="50"></textarea></label>
+        <input type="submit" name="submit" value="Submit">
+      </form>
+
+    </div>
+
   </body>
 </html>
